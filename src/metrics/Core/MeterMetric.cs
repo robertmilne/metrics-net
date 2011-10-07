@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
 using metrics.Stats;
 using metrics.Support;
 using Newtonsoft.Json;
@@ -18,15 +16,6 @@ namespace metrics.Core
         public static MeterMetric New(string eventType, TimeUnit rateUnit)
         {
             var meter = new MeterMetric(eventType, rateUnit);
-
-            new TaskFactory().StartNew(() =>
-            {
-                while (true)
-                {
-                    Thread.Sleep(TimeSpan.FromTicks(_interval));
-                    meter.Tick();
-                }
-            });
             
             return meter;
         }
